@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seabreeze Bakery – Fresh bread baked every morning</title>
+<meta name="description" content="Seabreeze Bakery: fresh bread, pastries and coffee by the sea. Order ahead online.">
+<!--
+  AFTER: Accessible version of the Seabreeze Bakery demo page (fictional business).
+  Targets WCAG 2.2 Level AA. See index.html for the list of fixes.
+-->
+<style>
+  :root {
+    --brand: #f4c542;
+    --brand-dark: #6b4e00;
+    --ink: #1f1a10;
+    --text: #333;
+    --muted: #595959;
+    --focus: #0b57d0;
+    --error: #b3261e;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+  body { margin: 0; font-family: Arial, Helvetica, sans-serif; color: var(--text); background: #fff; font-size: 1rem; line-height: 1.6; }
+
+  /* Visible keyboard focus everywhere */
+  :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 4px; }
+
+  .skip-link { position: absolute; left: 1rem; top: -100px; background: var(--ink); color: #fff; padding: .75rem 1rem; z-index: 100; border-radius: 6px; }
+  .skip-link:focus { top: 1rem; }
+
+  .visually-hidden { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+  header { background: var(--brand); padding: .75rem 1.5rem; display: flex; justify-content: space-between; align-items: center; position: relative; }
+  .logo { font-size: 1.4rem; font-weight: bold; color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: .5rem; }
+  nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: .5rem; }
+  nav a { color: var(--ink); text-decoration: none; font-weight: bold; padding: .6rem .75rem; display: inline-block; min-height: 44px; }
+  nav a:hover { text-decoration: underline; }
+  .menu-toggle { display: none; background: transparent; border: 2px solid var(--ink); color: var(--ink); font: inherit; font-weight: bold; padding: .5rem .9rem; border-radius: 6px; cursor: pointer; min-height: 44px; }
+
+  .hero { position: relative; min-height: 380px; display: flex; align-items: center; padding: 2rem 2.5rem;
+    background: linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.55)), url('https://images.unsplash.com/photo-1509440159596-0249088772ff?w=1400') center/cover; }
+  .hero h1 { color: #fff; font-size: clamp(1.8rem, 4vw, 2.6rem); max-width: 560px; margin: 0; line-height: 1.2; }
+
+  main section { padding: 2.25rem 2.5rem; }
+  h2 { font-size: 1.75rem; color: var(--ink); margin: 0 0 1rem; }
+  .products { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.25rem; list-style: none; padding: 0; margin: 0; }
+  .card { border: 1px solid #ccc; border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; }
+  .card img { width: 100%; height: 160px; object-fit: cover; display: block; }
+  .card .body { padding: .9rem; }
+  .card h3 { margin: 0 0 .25rem; font-size: 1.15rem; color: var(--ink); }
+  .price { color: var(--brand-dark); font-weight: bold; margin: 0; }
+
+  .btn { background: var(--brand); color: var(--ink); border: 2px solid var(--ink); padding: .65rem 1.1rem; border-radius: 6px; font: inherit; font-weight: bold; cursor: pointer; min-height: 44px; margin-top: .6rem; }
+  .btn:hover { background: #ffd95c; }
+
+  .reviews { background: #fafafa; border-radius: 8px; padding: 1.25rem; }
+  .reviews blockquote { margin: 0; font-style: italic; font-size: 1.1rem; min-height: 2em; }
+  .reviews-controls { margin-top: .75rem; display: flex; gap: .5rem; flex-wrap: wrap; }
+
+  form { max-width: 460px; }
+  .field { margin-bottom: 1rem; }
+  label { display: block; font-weight: bold; color: var(--ink); margin-bottom: .25rem; }
+  .hint { color: var(--muted); font-size: .9rem; margin: 0 0 .25rem; }
+  input, textarea { width: 100%; padding: .7rem; border: 2px solid #767676; border-radius: 6px; font: inherit; color: var(--text); }
+  input[aria-invalid="true"], textarea[aria-invalid="true"] { border-color: var(--error); }
+  .field-error { color: var(--error); font-weight: bold; margin: .25rem 0 0; }
+  .field-error::before { content: "⚠ "; }
+  .field-error:empty { display: none; }
+  .error-summary { border: 3px solid var(--error); padding: 1rem; border-radius: 6px; margin-bottom: 1rem; }
+  .error-summary h3 { margin-top: 0; color: var(--error); }
+  .error-summary a { color: var(--error); }
+  .success { border: 3px solid #1b6e2e; color: #1b6e2e; padding: 1rem; border-radius: 6px; font-weight: bold; }
+  .content-link { color: #0b57d0; }
+
+  footer { background: #222; color: #e6e6e6; padding: 1.25rem 2.5rem; }
+  footer ul { list-style: none; display: flex; gap: 1rem; padding: 0; margin: .5rem 0 0; }
+  footer a { color: #fff; }
+
+  @media (max-width: 700px) {
+    .menu-toggle { display: inline-block; }
+    nav ul { display: none; flex-direction: column; position: absolute; top: 100%; right: 0; left: 0; background: var(--brand); padding: .5rem 1.5rem 1rem; z-index: 10; }
+    nav ul.open { display: flex; }
+    main section, .hero { padding-left: 1.25rem; padding-right: 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header>
+  <a class="logo" href="#main">
+    <svg width="28" height="28" aria-hidden="true" focusable="false"><circle cx="14" cy="14" r="12" fill="#fff" stroke="#1f1a10" stroke-width="2"/></svg>
+    Seabreeze Bakery
+  </a>
+  <nav aria-label="Main">
+    <button class="menu-toggle" aria-expanded="false" aria-controls="main-menu">Menu</button>
+    <ul id="main-menu">
+      <li><a href="#menu">Our menu</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#order">Order ahead</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="main" tabindex="-1">
+  <div class="hero">
+    <h1>Fresh bread, baked every morning by the sea</h1>
+  </div>
+
+  <section id="menu" aria-labelledby="menu-heading">
+    <h2 id="menu-heading">Our menu</h2>
+    <ul class="products">
+      <li class="card">
+        <img src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?w=500" alt="A sliced golden loaf of bread on a wooden board">
+        <div class="body">
+          <h3>Coconut Loaf</h3>
+          <p class="price">K12.00</p>
+          <button class="btn add-btn" data-item="Coconut Loaf">Add<span class="visually-hidden"> Coconut Loaf to order</span></button>
+        </div>
+      </li>
+      <li class="card">
+        <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=500" alt="Flaky butter croissants on a tray">
+        <div class="body">
+          <h3>Butter Croissant</h3>
+          <p class="price">K6.50</p>
+          <button class="btn add-btn" data-item="Butter Croissant">Add<span class="visually-hidden"> Butter Croissant to order</span></button>
+        </div>
+      </li>
+      <li class="card">
+        <img src="https://images.unsplash.com/photo-1586444248902-2f64eddc13df?w=500" alt="Banana muffins in paper cases">
+        <div class="body">
+          <h3>Banana Muffin</h3>
+          <p class="price">K5.00</p>
+          <button class="btn add-btn" data-item="Banana Muffin">Add<span class="visually-hidden"> Banana Muffin to order</span></button>
+        </div>
+      </li>
+    </ul>
+    <p id="cart-status" role="status" aria-live="polite"></p>
+  </section>
+
+  <section id="reviews" aria-labelledby="reviews-heading">
+    <h2 id="reviews-heading">What people say</h2>
+    <div class="reviews" aria-roledescription="carousel" aria-label="Customer reviews">
+      <blockquote id="review-text">"Best croissants on the coast!"</blockquote>
+      <p class="visually-hidden" id="review-pos" aria-live="off">Review 1 of 3</p>
+      <div class="reviews-controls">
+        <button class="btn" id="prev-review">Previous<span class="visually-hidden"> review</span></button>
+        <button class="btn" id="pause-review" aria-pressed="false">Pause</button>
+        <button class="btn" id="next-review">Next<span class="visually-hidden"> review</span></button>
+      </div>
+    </div>
+  </section>
+
+  <section id="order" aria-labelledby="order-heading">
+    <h2 id="order-heading">Order ahead</h2>
+    <form id="order-form" novalidate>
+      <div id="error-summary" class="error-summary" role="alert" tabindex="-1" hidden>
+        <h3>Please fix the following:</h3>
+        <ul id="error-list"></ul>
+      </div>
+      <p class="hint">Fields marked with * are required.</p>
+      <div class="field">
+        <label for="name">Name *</label>
+        <input id="name" name="name" autocomplete="name" required aria-describedby="name-error">
+        <p class="field-error" id="name-error"></p>
+      </div>
+      <div class="field">
+        <label for="phone">Phone number *</label>
+        <p class="hint" id="phone-hint">So we can tell you when your order is ready.</p>
+        <input id="phone" name="phone" type="tel" autocomplete="tel" required aria-describedby="phone-hint phone-error">
+        <p class="field-error" id="phone-error"></p>
+      </div>
+      <div class="field">
+        <label for="order-details">What would you like?</label>
+        <textarea id="order-details" name="order-details" rows="4"></textarea>
+      </div>
+      <button class="btn" type="submit">Send order</button>
+      <div id="form-success" class="success" role="status" hidden>Thanks! Your order has been sent.</div>
+    </form>
+    <p>Planning an event? <a class="content-link" href="#order">Ask us about catering orders</a>.</p>
+  </section>
+</main>
+
+<footer>
+  <p>&copy; Seabreeze Bakery (demo site)</p>
+  <ul aria-label="Social media">
+    <li><a href="https://facebook.com">Facebook</a></li>
+    <li><a href="https://instagram.com">Instagram</a></li>
+  </ul>
+</footer>
+
+<script>
+  // Mobile menu: real button with aria-expanded
+  const toggle = document.querySelector('.menu-toggle');
+  const menu = document.getElementById('main-menu');
+  toggle.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    menu.classList.toggle('open', !open);
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+      toggle.click(); toggle.focus();
+    }
+  });
+
+  // "Add" buttons announce politely instead of using alert()
+  const status = document.getElementById('cart-status');
+  document.querySelectorAll('.add-btn').forEach(btn => {
+    btn.addEventListener('click', () => { status.textContent = btn.dataset.item + ' added to your order.'; });
+  });
+
+  // Reviews: pausable, manual controls, no auto-rotation if user prefers reduced motion
+  const reviews = ['"Best croissants on the coast!"', '"The coconut loaf is unreal."', '"Friendly staff and great coffee."'];
+  let idx = 0, timer = null;
+  const text = document.getElementById('review-text');
+  const pos = document.getElementById('review-pos');
+  const pauseBtn = document.getElementById('pause-review');
+  function show(n, announce) {
+    idx = (n + reviews.length) % reviews.length;
+    text.textContent = reviews[idx];
+    pos.textContent = 'Review ' + (idx + 1) + ' of ' + reviews.length;
+    text.setAttribute('aria-live', announce ? 'polite' : 'off');
+  }
+  function play() { timer = setInterval(() => show(idx + 1, false), 6000); pauseBtn.textContent = 'Pause'; pauseBtn.setAttribute('aria-pressed', 'false'); }
+  function stop() { clearInterval(timer); timer = null; pauseBtn.textContent = 'Play'; pauseBtn.setAttribute('aria-pressed', 'true'); }
+  pauseBtn.addEventListener('click', () => timer ? stop() : play());
+  document.getElementById('next-review').addEventListener('click', () => { stop(); show(idx + 1, true); });
+  document.getElementById('prev-review').addEventListener('click', () => { stop(); show(idx - 1, true); });
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { stop(); } else { play(); }
+
+  // Form validation: errors in text, linked to fields, summary receives focus
+  const form = document.getElementById('order-form');
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const errors = [];
+    const checks = [
+      { el: document.getElementById('name'), msg: 'Enter your name.' },
+      { el: document.getElementById('phone'), msg: 'Enter your phone number.' }
+    ];
+    checks.forEach(({ el, msg }) => {
+      const err = document.getElementById(el.id + '-error');
+      if (!el.value.trim()) {
+        el.setAttribute('aria-invalid', 'true'); err.textContent = msg; errors.push({ id: el.id, msg });
+      } else {
+        el.removeAttribute('aria-invalid'); err.textContent = '';
+      }
+    });
+    const summary = document.getElementById('error-summary');
+    const list = document.getElementById('error-list');
+    const success = document.getElementById('form-success');
+    if (errors.length) {
+      list.innerHTML = errors.map(er => '<li><a href="#' + er.id + '">' + er.msg + '</a></li>').join('');
+      summary.hidden = false; success.hidden = true; summary.focus();
+    } else {
+      summary.hidden = true; success.hidden = false; form.reset();
+    }
+  });
+</script>
+</body>
+</html>

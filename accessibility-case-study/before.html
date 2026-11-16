@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Home</title>
+<!--
+  BEFORE: This page is intentionally inaccessible.
+  It is a demo for an accessibility case study. Do not copy these patterns.
+-->
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Arial, sans-serif; color: #999; background: #fff; font-size: 13px; }
+  *:focus { outline: none; }
+  .topbar { background: #f4c542; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; }
+  .logo { font-size: 22px; font-weight: bold; color: #fff; }
+  .nav { display: flex; gap: 18px; }
+  .nav div { color: #fff; cursor: pointer; }
+  .menu-btn { display: none; color: #fff; cursor: pointer; font-size: 22px; }
+  .hero { background: url('https://images.unsplash.com/photo-1509440159596-0249088772ff?w=1400') center/cover; height: 380px; display: flex; align-items: center; padding: 0 40px; }
+  .hero-text { color: #fff; font-size: 34px; font-weight: bold; max-width: 520px; }
+  .section { padding: 36px 40px; }
+  .big { font-size: 26px; font-weight: bold; color: #b5b5b5; margin-bottom: 10px; }
+  .products { display: flex; gap: 20px; flex-wrap: wrap; }
+  .card { width: 230px; border: 1px solid #eee; border-radius: 8px; overflow: hidden; }
+  .card img { width: 100%; height: 150px; object-fit: cover; display: block; }
+  .card .body { padding: 12px; }
+  .price { color: #e8c76a; font-weight: bold; }
+  .btn { background: #f4c542; color: #fff; padding: 10px 16px; border-radius: 6px; display: inline-block; cursor: pointer; margin-top: 8px; }
+  .slider { position: relative; height: 70px; overflow: hidden; background: #fafafa; border-radius: 8px; }
+  .slide { position: absolute; inset: 0; padding: 20px; opacity: 0; transition: opacity .6s; font-style: italic; }
+  .slide.on { opacity: 1; }
+  form input, form textarea { width: 100%; max-width: 420px; padding: 10px; margin: 6px 0; border: 1px solid #f0f0f0; display: block; font-family: inherit; }
+  .error { color: red; display: none; }
+  .footer { background: #333; color: #555; padding: 20px 40px; }
+  .footer span { cursor: pointer; text-decoration: none; color: #666; }
+  @media (max-width: 700px) {
+    .nav { display: none; }
+    .menu-btn { display: block; }
+    .nav.open { display: flex; flex-direction: column; position: absolute; top: 56px; right: 0; background: #f4c542; padding: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28'%3E%3Ccircle cx='14' cy='14' r='12' fill='%23fff'/%3E%3C/svg%3E" style="vertical-align:middle"> Seabreeze Bakery</div>
+  <div class="menu-btn" onclick="document.querySelector('.nav').classList.toggle('open')">&#9776;</div>
+  <div class="nav">
+    <div onclick="location.href='#menu'">Menu</div>
+    <div onclick="location.href='#reviews'">Reviews</div>
+    <div onclick="location.href='#order'">Order</div>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="hero-text">Fresh bread, baked every morning by the sea</div>
+</div>
+
+<div class="section" id="menu">
+  <div class="big">Our Menu</div>
+  <div class="products">
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?w=500">
+      <div class="body">
+        <h4>Coconut Loaf</h4>
+        <div class="price">K12.00</div>
+        <div class="btn" onclick="alert('Added!')">Add</div>
+      </div>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=500">
+      <div class="body">
+        <h4>Butter Croissant</h4>
+        <div class="price">K6.50</div>
+        <div class="btn" onclick="alert('Added!')">Add</div>
+      </div>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1586444248902-2f64eddc13df?w=500">
+      <div class="body">
+        <h4>Banana Muffin</h4>
+        <div class="price">K5.00</div>
+        <div class="btn" onclick="alert('Added!')">Add</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" id="reviews">
+  <div class="big">What people say</div>
+  <div class="slider">
+    <div class="slide on">"Best croissants on the coast!"</div>
+    <div class="slide">"The coconut loaf is unreal."</div>
+    <div class="slide">"Friendly staff and great coffee."</div>
+  </div>
+</div>
+
+<div class="section" id="order">
+  <div class="big">Order ahead</div>
+  <form onsubmit="return check()">
+    <input id="n" placeholder="Name">
+    <input id="p" placeholder="Phone">
+    <textarea id="m" placeholder="What would you like?"></textarea>
+    <div class="error" id="err">Error</div>
+    <div class="btn" onclick="if(check()) alert('Sent!')">Send</div>
+  </form>
+  <p>For catering orders <span style="color:#e8c76a;cursor:pointer" onclick="location.href='#order'">click here</span>.</p>
+</div>
+
+<div class="footer">
+  &copy; Seabreeze Bakery &nbsp; <span>Facebook</span> &nbsp; <span>Instagram</span>
+</div>
+
+<script>
+  // Auto-rotating reviews with no way to pause
+  let i = 0; const s = document.querySelectorAll('.slide');
+  setInterval(() => { s[i].classList.remove('on'); i = (i + 1) % s.length; s[i].classList.add('on'); }, 2500);
+
+  function check() {
+    const ok = document.getElementById('n').value && document.getElementById('p').value;
+    document.getElementById('err').style.display = ok ? 'none' : 'block';
+    document.querySelectorAll('form input').forEach(el => el.style.borderColor = el.value ? '#f0f0f0' : 'red');
+    return false;
+  }
+</script>
+</body>
+</html>

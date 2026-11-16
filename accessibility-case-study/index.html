@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Accessibility Case Study: Seabreeze Bakery – Allan K.</title>
+<meta name="description" content="Before-and-after WCAG 2.2 accessibility remediation of a small business website, by Allan K., front-end developer.">
+<style>
+  :root { --ink: #1a1a2e; --text: #333; --muted: #595959; --accent: #0b57d0; --bad: #b3261e; --good: #1b6e2e; --line: #d0d0d0; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Arial, Helvetica, sans-serif; color: var(--text); line-height: 1.6; background: #fff; }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  .skip-link { position: absolute; left: 1rem; top: -100px; background: var(--ink); color: #fff; padding: .75rem 1rem; border-radius: 6px; z-index: 10; }
+  .skip-link:focus { top: 1rem; }
+  header { background: var(--ink); color: #fff; padding: 2.5rem 1.5rem; }
+  header .wrap, main .wrap, footer .wrap { max-width: 960px; margin: 0 auto; }
+  header p.kicker { text-transform: uppercase; letter-spacing: .08em; font-size: .85rem; margin: 0 0 .5rem; color: #cfd8ff; }
+  header h1 { margin: 0 0 .75rem; font-size: clamp(1.8rem, 4vw, 2.5rem); line-height: 1.2; }
+  header p { margin: 0; max-width: 680px; color: #e8e8f0; }
+  main { padding: 2rem 1.5rem; }
+  h2 { color: var(--ink); font-size: 1.6rem; margin: 2.25rem 0 .75rem; }
+  a { color: var(--accent); }
+  .demo-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-top: 1rem; }
+  .demo-card { border: 2px solid var(--line); border-radius: 10px; padding: 1.25rem; }
+  .demo-card h3 { margin: 0 0 .25rem; }
+  .demo-card.before { border-color: var(--bad); }
+  .demo-card.after { border-color: var(--good); }
+  .demo-card a.btn { display: inline-block; margin-top: .75rem; padding: .65rem 1rem; border-radius: 6px; background: var(--ink); color: #fff; text-decoration: none; font-weight: bold; min-height: 44px; }
+  .scores { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+  .score { border: 1px solid var(--line); border-radius: 10px; padding: 1rem; text-align: center; }
+  .score .num { font-size: 2.2rem; font-weight: bold; color: var(--ink); display: block; }
+  .score .label { color: var(--muted); font-size: .95rem; }
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; margin-top: .5rem; font-size: .95rem; }
+  caption { text-align: left; font-weight: bold; padding-bottom: .5rem; color: var(--ink); }
+  th, td { text-align: left; vertical-align: top; padding: .65rem .75rem; border-bottom: 1px solid var(--line); }
+  thead th { background: #f2f4f8; color: var(--ink); }
+  td.sc { white-space: nowrap; color: var(--muted); }
+  .tools { display: flex; flex-wrap: wrap; gap: .5rem; list-style: none; padding: 0; }
+  .tools li { background: #eef2fb; color: var(--ink); padding: .35rem .75rem; border-radius: 999px; font-size: .95rem; }
+  footer { background: #f2f4f8; padding: 1.5rem; margin-top: 3rem; }
+  .note { color: var(--muted); font-size: .9rem; }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header>
+  <div class="wrap">
+    <p class="kicker">Accessibility case study</p>
+    <h1>Making a small business website accessible (WCAG 2.2 AA)</h1>
+    <p>A before-and-after remediation of a typical small business homepage: a fictional bakery site with the same accessibility problems I see on real sites every day.</p>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap">
+
+    <h2>Try both versions</h2>
+    <p>Open each page and try using it with only your keyboard (<kbd>Tab</kbd>, <kbd>Shift</kbd>+<kbd>Tab</kbd>, <kbd>Enter</kbd>) or a screen reader. The difference is easy to feel.</p>
+    <div class="demo-links">
+      <div class="demo-card before">
+        <h3>Before</h3>
+        <p>Looks fine at first glance, but many visitors can't use it.</p>
+        <a class="btn" href="before.html">View the "before" page</a>
+      </div>
+      <div class="demo-card after">
+        <h3>After</h3>
+        <p>Same design and content, rebuilt to meet WCAG 2.2 Level AA.</p>
+        <a class="btn" href="after.html">View the "after" page</a>
+      </div>
+    </div>
+
+    <h2>Results</h2>
+    <!-- TODO (Allan): run Lighthouse on before.html and after.html (Chrome DevTools → Lighthouse → Accessibility) and replace the numbers below with your real scores. Also add your WAVE error counts. -->
+    <div class="scores">
+      <div class="score"><span class="num">XX → XX</span><span class="label">Lighthouse accessibility score</span></div>
+      <div class="score"><span class="num">XX → 0</span><span class="label">WAVE errors</span></div>
+      <div class="score"><span class="num">1.6:1 → 6.3:1</span><span class="label">Worst text contrast ratio (minimum is 4.5:1)</span></div>
+    </div>
+
+    <h2>What I found and fixed</h2>
+    <div class="table-wrap">
+      <table>
+        <caption>Accessibility issues fixed, with the WCAG 2.2 success criteria they relate to</caption>
+        <thead>
+          <tr><th scope="col">Problem</th><th scope="col">Who it affected</th><th scope="col">Fix</th><th scope="col">WCAG</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Grey and yellow text failed contrast (as low as 1.6:1)</td><td>People with low vision, anyone outdoors on a phone</td><td>New colour palette; all text now at least 6.3:1 (minimum is 4.5:1)</td><td class="sc">1.4.3</td></tr>
+          <tr><td>White hero text over a busy photo</td><td>People with low vision</td><td>Dark overlay behind the headline</td><td class="sc">1.4.3</td></tr>
+          <tr><td>Product photos had no alt text</td><td>Screen reader users</td><td>Descriptive alt text; decorative logo hidden from screen readers</td><td class="sc">1.1.1</td></tr>
+          <tr><td>No page language or meaningful title</td><td>Screen reader users, search engines</td><td>Added <code>lang="en"</code> and a descriptive <code>&lt;title&gt;</code></td><td class="sc">3.1.1, 2.4.2</td></tr>
+          <tr><td>"Buttons" and menu links were clickable <code>&lt;div&gt;</code>s</td><td>Keyboard and screen reader users couldn't reach or use them</td><td>Replaced with real <code>&lt;button&gt;</code> and <code>&lt;a&gt;</code> elements</td><td class="sc">2.1.1, 4.1.2</td></tr>
+          <tr><td>Focus outline removed (<code>outline: none</code>)</td><td>Keyboard users couldn't see where they were</td><td>Clear 3px focus ring on every interactive element</td><td class="sc">2.4.7</td></tr>
+          <tr><td>Mobile menu icon wasn't a button and didn't report its state</td><td>Keyboard and screen reader users on mobile</td><td>Labelled button with <code>aria-expanded</code>, closes with Escape</td><td class="sc">4.1.2</td></tr>
+          <tr><td>Headings were styled <code>&lt;div&gt;</code>s; levels skipped</td><td>Screen reader users navigating by heading</td><td>Logical <code>h1</code> → <code>h2</code> → <code>h3</code> structure and landmarks</td><td class="sc">1.3.1</td></tr>
+          <tr><td>No way to skip the navigation</td><td>Keyboard users</td><td>"Skip to main content" link</td><td class="sc">2.4.1</td></tr>
+          <tr><td>Form fields used placeholders instead of labels</td><td>Screen reader users, people with memory difficulties</td><td>Visible <code>&lt;label&gt;</code>s, hints and <code>autocomplete</code></td><td class="sc">1.3.1, 3.3.2, 1.3.5</td></tr>
+          <tr><td>Errors shown only as a red border and the word "Error"</td><td>Colour-blind and screen reader users</td><td>Specific error text linked to each field, plus a focused error summary</td><td class="sc">1.4.1, 3.3.1, 3.3.3</td></tr>
+          <tr><td>Reviews rotated automatically with no pause</td><td>People with attention or reading difficulties</td><td>Pause, Previous and Next buttons; respects reduced-motion settings</td><td class="sc">2.2.2</td></tr>
+          <tr><td>"Click here" link text</td><td>Screen reader users scanning links</td><td>Descriptive link text</td><td class="sc">2.4.4</td></tr>
+          <tr><td>Pinch-zoom disabled; 13px text</td><td>People with low vision</td><td>Zoom allowed; 16px base text that scales</td><td class="sc">1.4.4</td></tr>
+          <tr><td>Pop-up <code>alert()</code> when adding to order</td><td>Interrupts everyone, confuses screen readers</td><td>Polite status message announced by screen readers</td><td class="sc">4.1.3</td></tr>
+          <tr><td>Small click targets in the menu</td><td>People with motor difficulties, touchscreen users</td><td>All targets at least 44×44px</td><td class="sc">2.5.8</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>How I tested</h2>
+    <ul class="tools" aria-label="Testing tools">
+      <li>Lighthouse</li><li>WAVE</li><li>axe DevTools</li><li>Keyboard-only testing</li><li>NVDA screen reader</li><li>Mobile and 200% zoom checks</li>
+    </ul>
+
+    <h2>Need this for your site?</h2>
+    <p>I audit and fix accessibility issues on HTML, WordPress, Shopify and Wix sites. <a href="https://www.upwork.com/freelancers/~01d9e8d935bae67b07">Hire me on Upwork</a>.</p>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="note">Seabreeze Bakery is a fictional business created for this demo. Photos from Unsplash.</p>
+  </div>
+</footer>
+</body>
+</html>
