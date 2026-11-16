@@ -1,55 +1,71 @@
-# Allan K. – Accessibility Portfolio
+# Accessibility Portfolio
 
-Two demo projects for my Upwork portfolio. Plain HTML, CSS and JavaScript, no frameworks.
+Two front-end projects that show how to build websites everyone can use, including people who rely on keyboards, screen readers, zoom or high contrast. Both are written in plain HTML, CSS and JavaScript with no frameworks or build step, and target **WCAG 2.2 Level AA**.
 
-| Folder | What it is |
-|---|---|
-| `accessibility-case-study/` | Before-and-after WCAG 2.2 fix of a fictional bakery site. `index.html` is the case study, `before.html` is the broken page, `after.html` is the fixed page. |
-| `accessible-landing-page/` | Responsive, accessible landing page for a fictional tour company (keyboard menu, FAQ accordion, accessible booking form, dark mode). |
+**Live demos**
+
+- [Accessibility case study: Seabreeze Bakery](https://allankoaik.github.io/accessibility-portfolio/accessibility-case-study/)
+- [Accessible landing page: Reefline Island Tours](https://allankoaik.github.io/accessibility-portfolio/accessible-landing-page/)
 
 ---
 
-## Step 1: Fill in your real test scores (10 minutes)
+## 1. Accessibility case study: Seabreeze Bakery
 
-Do this before publishing. Never put numbers you didn't measure in front of clients.
+A before-and-after remediation of a typical small business homepage. The "before" page looks fine at a glance but has the accessibility problems found on many real sites. The "after" page keeps the same design and content and is rebuilt to meet WCAG 2.2 AA.
 
-1. Open `accessibility-case-study/before.html` in Chrome.
-2. Right-click → **Inspect** → **Lighthouse** tab → tick only **Accessibility** → **Analyze page load**. Write down the score.
-3. Do the same for `after.html`.
-4. Install the free **WAVE** browser extension and run it on both pages. Write down the number of **Errors**.
-5. Open `accessibility-case-study/index.html` in a text editor, find the `TODO (Allan)` comment and replace the `XX` values with your real numbers.
-6. Take screenshots of both Lighthouse results. You'll use them as Upwork portfolio images.
+| Page | Description |
+|---|---|
+| [`index.html`](accessibility-case-study/index.html) | The case study: results, issues found, fixes and testing approach |
+| [`before.html`](accessibility-case-study/before.html) | The original, inaccessible page |
+| [`after.html`](accessibility-case-study/after.html) | The fixed page |
 
-The "How I tested" section mentions the NVDA screen reader. NVDA is free for Windows (nvaccess.org). Spend 15 minutes trying both pages with it so you can talk about it honestly with clients, or delete that line.
+**16 issues fixed**, including:
 
-## Step 2: Publish free on GitHub Pages
+- **Colour contrast:** worst text contrast improved from 1.6:1 to 6.3:1 (the minimum is 4.5:1)
+- **Keyboard access:** clickable `<div>`s replaced with real buttons and links, a visible focus ring, and a skip link
+- **Screen readers:** alt text, page language and title, a logical heading structure and landmarks
+- **Forms:** visible labels, `autocomplete`, and specific error messages with a focused error summary
+- **Mobile menu:** a labelled button with `aria-expanded` that closes with Escape
+- **Motion:** auto-rotating reviews now have pause, previous and next controls, and respect reduced-motion settings
+- **Zoom and touch:** pinch-zoom re-enabled, text that scales, and 44×44px touch targets
+- **Status messages:** a pop-up `alert()` replaced with a polite live-region announcement
 
-1. Sign in to github.com (your account is already linked to Upwork).
-2. Click **New repository**, name it `accessibility-portfolio`, make it **Public**, click **Create**.
-3. Click **uploading an existing file**, drag in both folders and this README, then **Commit changes**.
-4. Go to **Settings → Pages**. Under "Branch", choose `main` and `/ (root)`, then **Save**.
-5. After 1–2 minutes your pages are live at:
-   - `https://YOUR-USERNAME.github.io/accessibility-portfolio/accessibility-case-study/`
-   - `https://YOUR-USERNAME.github.io/accessibility-portfolio/accessible-landing-page/`
+## 2. Accessible landing page: Reefline Island Tours
 
-## Step 3: Add them to Upwork
+A mobile-first, responsive landing page for a tour company, built accessibly from the start.
 
-Profile → **Portfolio** → **+** for each project:
+- Keyboard-friendly navigation and mobile menu
+- Accessible FAQ accordion
+- Booking form with clear labels and error messages
+- Dark mode (follows the system setting)
+- Reduced-motion support
+- Semantic HTML with landmarks and a logical heading structure
 
-**Project 1 title:** Website Accessibility Audit & Fix (WCAG 2.2 AA) – Case Study
-- Role: Front-end developer & accessibility tester
-- Description: Audited a small business homepage and fixed 16 accessibility issues: colour contrast, alt text, keyboard navigation, focus states, form labels and errors, heading structure and more. Includes before/after Lighthouse and WAVE results.
-- Skills: Web Accessibility, Web Content Accessibility Guidelines, Accessibility Testing, HTML5, CSS
-- Images: your Lighthouse before/after screenshots + a screenshot of the issues table
-- Link: your GitHub Pages case study URL
+## Testing
 
-**Project 2 title:** Accessible, Responsive Landing Page (HTML/CSS/JS)
-- Role: Front-end developer
-- Description: Mobile-first landing page built to WCAG 2.2 AA: keyboard-friendly menu, accessible FAQ accordion, booking form with clear error messages, dark mode and reduced-motion support. No frameworks.
-- Skills: Landing Page, Responsive Design, Front-End Development, JavaScript, Web Accessibility
-- Images: desktop and mobile screenshots
-- Link: your GitHub Pages landing page URL
+- Lighthouse and axe DevTools
+- WAVE
+- Keyboard-only navigation
+- NVDA screen reader
+- Mobile and 200% zoom checks
+
+## Running locally
+
+No installation needed. Clone the repository and open any `index.html` file in a browser:
+
+```bash
+git clone https://github.com/allankoaik/accessibility-portfolio.git
+```
+
+## Built with
+
+HTML5 · CSS3 · Vanilla JavaScript · WAI-ARIA
 
 ## Notes
-- Both businesses are fictional, and the pages say so. Photos load from Unsplash.
-- The "Hire me on Upwork" link in the case study points to your Upwork profile.
+
+Seabreeze Bakery and Reefline Island Tours are fictional businesses created for these demos. Photos are from [Unsplash](https://unsplash.com).
+
+## Author
+
+**Allan K.**, front-end developer focused on web accessibility.
+Available for accessibility audits and fixes on HTML, WordPress, Shopify and Wix sites: [hire me on Upwork](https://www.upwork.com/freelancers/~01d9e8d935bae67b07).
