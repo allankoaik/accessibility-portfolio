@@ -40,6 +40,11 @@
   .tools li { background: #eef2fb; color: var(--ink); padding: .35rem .75rem; border-radius: 999px; font-size: .95rem; }
   footer { background: #f2f4f8; padding: 1.5rem; margin-top: 3rem; }
   .note { color: var(--muted); font-size: .9rem; }
+  h3 { color: var(--ink); }
+  .shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 1.25rem; }
+  .shots figure { margin: 0; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .shots img { display: block; width: 100%; height: auto; }
+  .shots figcaption { padding: .6rem .9rem; font-weight: bold; color: var(--ink); background: #f2f4f8; }
 </style>
 </head>
 <body>
@@ -72,12 +77,33 @@
     </div>
 
     <h2>Results</h2>
-    <!-- TODO (Allan): run Lighthouse on before.html and after.html (Chrome DevTools → Lighthouse → Accessibility) and replace the numbers below with your real scores. Also add your WAVE error counts. -->
     <div class="scores">
-      <div class="score"><span class="num">XX → XX</span><span class="label">Lighthouse accessibility score</span></div>
-      <div class="score"><span class="num">XX → 0</span><span class="label">WAVE errors</span></div>
+      <div class="score"><span class="num">50 → 100</span><span class="label">Lighthouse accessibility score</span></div>
+      <div class="score"><span class="num">8 → 0</span><span class="label">WAVE errors (plus 26 → 0 contrast errors)</span></div>
       <div class="score"><span class="num">1.6:1 → 6.3:1</span><span class="label">Worst text contrast ratio (minimum is 4.5:1)</span></div>
     </div>
+
+    <h3>Test results: before and after</h3>
+    <div class="shots">
+      <figure>
+        <img src="images/lighthouse-before.jpg" width="1400" height="605" loading="lazy" alt="Lighthouse report for the before page showing an accessibility score of 50, with a failed check for images missing alt attributes.">
+        <figcaption>Lighthouse, before: 50</figcaption>
+      </figure>
+      <figure>
+        <img src="images/lighthouse-after.jpg" width="1400" height="605" loading="lazy" alt="Lighthouse report for the after page showing an accessibility score of 100.">
+        <figcaption>Lighthouse, after: 100</figcaption>
+      </figure>
+      <figure>
+        <img src="images/wave-before.jpg" width="1400" height="612" loading="lazy" alt="WAVE summary for the before page: 8 errors, 26 contrast errors and 11 alerts, AIM score 4.1 out of 10.">
+        <figcaption>WAVE, before: 8 errors, 26 contrast errors</figcaption>
+      </figure>
+      <figure>
+        <img src="images/wave-after.jpg" width="1400" height="610" loading="lazy" alt="WAVE summary for the after page: 0 errors, 0 contrast errors and 0 alerts, AIM score 10 out of 10.">
+        <figcaption>WAVE, after: 0 errors, 0 contrast errors</figcaption>
+      </figure>
+    </div>
+
+    <p>Want the full write-up? <a href="../sample-audit-report/">Read the sample accessibility audit report for this site</a>.</p>
 
     <h2>What I found and fixed</h2>
     <div class="table-wrap">
