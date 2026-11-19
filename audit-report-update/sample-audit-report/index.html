@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sample Accessibility Audit Report: Seabreeze Bakery – Allan K.</title>
+<meta name="description" content="A sample WCAG 2.2 AA website accessibility audit report by Allan K., showing the findings, priorities and fix guidance clients receive.">
+<style>
+  :root {
+    --ink: #1a1a2e; --text: #2f3337; --muted: #595959; --line: #d5d9de; --soft: #f4f6f9;
+    --accent: #0b57d0;
+    --critical: #a4161a; --critical-bg: #fde8e8;
+    --serious: #9a3412; --serious-bg: #fdeee3;
+    --moderate: #7a5a00; --moderate-bg: #fdf5d9;
+    --minor: #2f4f7f; --minor-bg: #e7eef9;
+    --pass: #1b6e2e;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body { margin: 0; font-family: Arial, Helvetica, sans-serif; color: var(--text); background: #fff; line-height: 1.6; font-size: 1rem; }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  a { color: var(--accent); }
+  .skip-link { position: absolute; left: 1rem; top: -100px; background: var(--ink); color: #fff; padding: .75rem 1rem; border-radius: 6px; z-index: 10; }
+  .skip-link:focus { top: 1rem; }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 0 1.5rem; }
+
+  .sample-banner { background: var(--minor-bg); color: var(--ink); border-bottom: 1px solid var(--line); padding: .6rem 0; font-size: .95rem; }
+  .cover { background: var(--ink); color: #fff; padding: 3rem 0 2.5rem; }
+  .cover .kicker { text-transform: uppercase; letter-spacing: .08em; font-size: .85rem; color: #cfd8ff; margin: 0 0 .5rem; }
+  .cover h1 { margin: 0 0 1.5rem; font-size: clamp(1.9rem, 4.5vw, 2.6rem); line-height: 1.15; }
+  .meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: .75rem 1.5rem; margin: 0; }
+  .meta div { border-left: 3px solid #6f86ff; padding-left: .75rem; }
+  .meta dt { font-size: .85rem; color: #cfd8ff; }
+  .meta dd { margin: 0; font-weight: bold; color: #fff; word-break: break-word; }
+  .actions { margin-top: 1.75rem; display: flex; gap: .75rem; flex-wrap: wrap; }
+  .btn { display: inline-flex; align-items: center; min-height: 44px; padding: .6rem 1.1rem; border-radius: 6px; font-weight: bold; text-decoration: none; border: 2px solid #fff; color: #fff; background: transparent; font: inherit; font-weight: bold; cursor: pointer; }
+  .btn.primary { background: #fff; color: var(--ink); }
+
+  nav.toc { background: var(--soft); border: 1px solid var(--line); border-radius: 10px; padding: 1rem 1.25rem; margin: 2rem 0; }
+  nav.toc h2 { font-size: 1.05rem; margin: 0 0 .5rem; }
+  nav.toc ol { margin: 0; padding-left: 1.25rem; columns: 2; column-gap: 2rem; }
+  nav.toc li { break-inside: avoid; }
+
+  main h2 { color: var(--ink); font-size: 1.6rem; margin: 2.5rem 0 .75rem; padding-bottom: .4rem; border-bottom: 2px solid var(--line); }
+  main h3 { color: var(--ink); }
+
+  .verdict { border: 3px solid var(--critical); border-radius: 10px; padding: 1rem 1.25rem; background: var(--critical-bg); }
+  .verdict p { margin: 0; }
+  .verdict strong { color: var(--critical); }
+
+  .counts { display: grid; grid-template-columns: repeat(4, 1fr); gap: .75rem; margin: 1.25rem 0; list-style: none; padding: 0; }
+  .counts li { border-radius: 10px; padding: .9rem; text-align: center; border: 1px solid var(--line); }
+  .counts .n { display: block; font-size: 2rem; font-weight: bold; line-height: 1.1; }
+  .c-critical { background: var(--critical-bg); color: var(--critical); }
+  .c-serious { background: var(--serious-bg); color: var(--serious); }
+  .c-moderate { background: var(--moderate-bg); color: var(--moderate); }
+  .c-minor { background: var(--minor-bg); color: var(--minor); }
+
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: .95rem; margin: .5rem 0 1rem; }
+  caption { text-align: left; font-weight: bold; color: var(--ink); padding-bottom: .4rem; }
+  th, td { text-align: left; vertical-align: top; padding: .55rem .7rem; border-bottom: 1px solid var(--line); }
+  thead th { background: var(--soft); color: var(--ink); }
+  td.num, th.num { text-align: right; white-space: nowrap; }
+  .fail { color: var(--critical); font-weight: bold; }
+  .pass { color: var(--pass); font-weight: bold; }
+
+  .finding { border: 1px solid var(--line); border-radius: 10px; margin: 1.25rem 0; overflow: hidden; break-inside: avoid; }
+  .finding-head { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .75rem; padding: .85rem 1.1rem; background: var(--soft); border-bottom: 1px solid var(--line); }
+  .finding-head h3 { margin: 0; font-size: 1.1rem; flex: 1 1 320px; }
+  .badge { display: inline-block; font-size: .8rem; font-weight: bold; text-transform: uppercase; letter-spacing: .04em; padding: .2rem .6rem; border-radius: 999px; border: 1px solid currentColor; }
+  .finding-body { padding: .9rem 1.1rem 1rem; }
+  .finding dl { display: grid; grid-template-columns: 9.5rem 1fr; gap: .35rem 1rem; margin: 0 0 .75rem; }
+  .finding dt { font-weight: bold; color: var(--ink); }
+  .finding dd { margin: 0; }
+  .finding p { margin: .4rem 0; }
+  pre { background: #1e2230; color: #f1f3f8; padding: .8rem 1rem; border-radius: 8px; overflow-x: auto; font-size: .85rem; line-height: 1.5; margin: .4rem 0; white-space: pre-wrap; }
+  code { font-family: Consolas, "Courier New", monospace; }
+  p code, li code, td code, dd code { background: var(--soft); padding: .05rem .3rem; border-radius: 4px; font-size: .9em; }
+  .code-label { font-size: .85rem; font-weight: bold; color: var(--muted); margin: .6rem 0 0; }
+
+  .plan { counter-reset: phase; list-style: none; padding: 0; }
+  .plan li { counter-increment: phase; border-left: 4px solid var(--accent); padding: .5rem 0 .5rem 1rem; margin-bottom: 1rem; }
+  .plan li strong { color: var(--ink); }
+
+  .cta { background: var(--ink); color: #fff; border-radius: 12px; padding: 1.5rem; margin: 2.5rem 0; }
+  .cta h2 { color: #fff; border: 0; margin-top: 0; }
+  .cta a { color: #fff; }
+  footer { border-top: 1px solid var(--line); padding: 1.5rem 0 2.5rem; color: var(--muted); font-size: .9rem; }
+
+  @media (max-width: 640px) {
+    nav.toc ol { columns: 1; }
+    .counts { grid-template-columns: repeat(2, 1fr); }
+    .finding dl { grid-template-columns: 1fr; }
+    .finding dt { margin-top: .4rem; }
+  }
+
+  /* Print / PDF */
+  @page { size: A4; margin: 16mm 14mm; }
+  @media print {
+    body { font-size: 10.5pt; }
+    .skip-link, .actions, .sample-banner .screen-only { display: none !important; }
+    .cover { padding: 1.5rem 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .cover, .counts li, .badge, .verdict, pre, .cta, thead th, .finding-head, .sample-banner { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    main h2 { break-after: avoid; }
+    .finding, table, .verdict, .cta { break-inside: avoid; }
+    a { color: inherit; text-decoration: none; }
+    .wrap { max-width: none; padding: 0; }
+    #findings { break-before: page; }
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div class="sample-banner">
+  <div class="wrap"><strong>Sample report.</strong> Seabreeze Bakery is a fictional business I built for my portfolio. The findings are real results from testing its "before" page.</div>
+</div>
+
+<header class="cover">
+  <div class="wrap">
+    <p class="kicker">Website accessibility audit</p>
+    <h1>Accessibility Audit Report: Seabreeze Bakery homepage</h1>
+    <dl class="meta">
+      <div><dt>Page audited</dt><dd>allankoaik.github.io/accessibility-portfolio/accessibility-case-study/before.html</dd></div>
+      <div><dt>Standard</dt><dd>WCAG 2.2, Level AA</dd></div>
+      <div><dt>Audit date</dt><dd>16 November 2026</dd></div>
+      <div><dt>Prepared by</dt><dd>Allan K., Front-End Developer &amp; Accessibility Specialist</dd></div>
+    </dl>
+    <div class="actions">
+      <a class="btn primary" href="Seabreeze-Bakery-Accessibility-Audit-Sample.pdf">Download PDF version</a>
+      <a class="btn" href="../accessibility-case-study/before.html">View the audited page</a>
+    </div>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+  <div class="wrap">
+
+    <nav class="toc" aria-labelledby="toc-heading">
+      <h2 id="toc-heading">Contents</h2>
+      <ol>
+        <li><a href="#summary">Summary</a></li>
+        <li><a href="#scope">Scope and method</a></li>
+        <li><a href="#scores">Test results</a></li>
+        <li><a href="#severity">How issues are rated</a></li>
+        <li><a href="#findings">Findings and fixes</a></li>
+        <li><a href="#contrast">Colour contrast details</a></li>
+        <li><a href="#plan">Recommended fix plan</a></li>
+        <li><a href="#limits">Limitations</a></li>
+      </ol>
+    </nav>
+
+    <section aria-labelledby="summary">
+      <h2 id="summary">1. Summary</h2>
+      <div class="verdict">
+        <p><strong>Result: The homepage does not meet WCAG 2.2 Level AA.</strong> People who use a keyboard or a screen reader cannot use the navigation, add products or send the order form. Many visitors with low vision will struggle to read the text.</p>
+      </div>
+      <p>I found <strong>18 issues</strong>. Three of them stop some visitors from completing key tasks and should be fixed first.</p>
+      <ul class="counts" aria-label="Issues by severity">
+        <li class="c-critical"><span class="n">3</span>Critical</li>
+        <li class="c-serious"><span class="n">6</span>Serious</li>
+        <li class="c-moderate"><span class="n">7</span>Moderate</li>
+        <li class="c-minor"><span class="n">2</span>Minor</li>
+      </ul>
+      <h3>Top 3 priorities</h3>
+      <ol>
+        <li><strong>Make every menu link and button work with a keyboard</strong> (issues 1 and 2). Right now they only respond to a mouse click.</li>
+        <li><strong>Add labels to the order form</strong> (issue 3) so screen reader users know what each field is for.</li>
+        <li><strong>Fix the colour contrast</strong> (issue 4). Most text on the page is far too faint, as low as 1.6:1 against a minimum of 4.5:1.</li>
+      </ol>
+      <p>Most fixes are small changes to HTML and CSS, and the design can stay the same. I estimate <strong>6–8 hours</strong> to fix everything in this report (see the <a href="#plan">fix plan</a>).</p>
+    </section>
+
+    <section aria-labelledby="scope">
+      <h2 id="scope">2. Scope and method</h2>
+      <p><strong>In scope:</strong> the homepage, including the header and navigation, mobile menu, product list, reviews carousel, order form and footer, on desktop and mobile screen sizes.</p>
+      <p><strong>How I tested:</strong></p>
+      <ul>
+        <li><strong>Automated scans</strong> with Google Lighthouse (mobile) and WebAIM's WAVE tool</li>
+        <li><strong>Keyboard-only testing:</strong> using the whole page with <kbd>Tab</kbd>, <kbd>Shift</kbd>+<kbd>Tab</kbd>, <kbd>Enter</kbd>, <kbd>Space</kbd> and <kbd>Esc</kbd></li>
+        <li><strong>Manual code review</strong> of the HTML, CSS and JavaScript against each WCAG 2.2 Level A and AA success criterion</li>
+        <li><strong>Colour contrast measurements</strong> for every text and border colour</li>
+        <li><strong>Zoom and mobile checks</strong> at 200% zoom and a 390px-wide phone screen</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="scores">
+      <h2 id="scores">3. Test results</h2>
+      <div class="table-wrap">
+        <table>
+          <caption>Automated test scores for the homepage</caption>
+          <thead><tr><th scope="col">Test</th><th scope="col" class="num">Result</th><th scope="col">What it means</th></tr></thead>
+          <tbody>
+            <tr><td>Lighthouse accessibility score</td><td class="num fail">50 / 100</td><td>Fails many automated checks. 100 is the goal.</td></tr>
+            <tr><td>WAVE errors</td><td class="num fail">8</td><td>Definite problems, such as missing alt text and form labels</td></tr>
+            <tr><td>WAVE contrast errors</td><td class="num fail">26</td><td>Text that is too faint to read easily</td></tr>
+            <tr><td>WAVE alerts</td><td class="num">11</td><td>Possible problems that need a human to review</td></tr>
+            <tr><td>WAVE AIM score</td><td class="num fail">4.1 / 10</td><td>WebAIM's overall accessibility impact score</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Automated tools find only part of the problems on a page. Several of the most serious issues below, such as the menu not working with a keyboard, were found by manual testing.</p>
+    </section>
+
+    <section aria-labelledby="severity">
+      <h2 id="severity">4. How issues are rated</h2>
+      <div class="table-wrap">
+        <table>
+          <caption>Severity levels used in this report</caption>
+          <thead><tr><th scope="col">Severity</th><th scope="col">Meaning</th></tr></thead>
+          <tbody>
+            <tr><td><span class="badge c-critical">Critical</span></td><td>Stops some people from completing a key task, such as navigating or ordering. Fix immediately.</td></tr>
+            <tr><td><span class="badge c-serious">Serious</span></td><td>Makes the page very difficult for some people. Fix as soon as possible.</td></tr>
+            <tr><td><span class="badge c-moderate">Moderate</span></td><td>Causes confusion or extra effort. Fix in the next update.</td></tr>
+            <tr><td><span class="badge c-minor">Minor</span></td><td>Small annoyance or best-practice improvement.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section aria-labelledby="findings">
+      <h2 id="findings">5. Findings and fixes</h2>
+
+      <!-- CRITICAL -->
+      <article class="finding" aria-labelledby="f1">
+        <div class="finding-head"><h3 id="f1">1. Navigation and mobile menu don't work with a keyboard</h3><span class="badge c-critical">Critical</span></div>
+        <div class="finding-body">
+          <dl>
+            <dt>WCAG</dt><dd>2.1.1 Keyboard (A), 4.1.2 Name, Role, Value (A)</dd>
+            <dt>Where</dt><dd>Header: "Menu", "Reviews", "Order" links and the ☰ menu icon</dd>
+            <dt>Who is affected</dt><dd>Keyboard users, screen reader users, people using switch devices or voice control</dd>
+          </dl>
+          <p><strong>Problem:</strong> The menu items are <code>&lt;div&gt;</code> elements with a click handler. They can't be reached with <kbd>Tab</kbd> and aren't announced as links. In keyboard testing, pressing <kbd>Tab</kbd> reached only the three form fields. No link or button on the page could be reached. The ☰ icon has no name, so a screen reader can't describe it.</p>
+          <p class="code-label">Current code</p>
+<pre><code>&lt;div class="menu-btn" onclick="..."&gt;&amp;#9776;&lt;/div&gt;
+&lt;div onclick="location.href='#menu'"&gt;Menu&lt;/div&gt;</code></pre>
+          <p class="code-label">Recommended fix</p>
+<pre><code>&lt;nav aria-label="Main"&gt;
+  &lt;button class="menu-toggle" aria-expanded="false" aria-controls="main-menu"&gt;Menu&lt;/button&gt;
+  &lt;ul id="main-menu"&gt;
+    &lt;li&gt;&lt;a href="#menu"&gt;Our menu&lt;/a&gt;&lt;/li&gt; ...
+  &lt;/ul&gt;
+&lt;/nav&gt;</code></pre>
+          <p>Update <code>aria-expanded</code> when the menu opens and closes, and let <kbd>Esc</kbd> close it.</p>
+        </div>
+      </article>
+
+      <article class="finding" aria-labelledby="f2">
+        <div class="finding-head"><h3 id="f2">2. "Add" and "Send" buttons aren't real buttons</h3><span class="badge c-critical">Critical</span></div>
+        <div class="finding-body">
+          <dl>
+            <dt>WCAG</dt><dd>2.1.1 Keyboard (A), 4.1.2 Name, Role, Value (A)</dd>
+            <dt>Where</dt><dd>The three "Add" buttons in the menu section and the "Send" button on the order form</dd>
+            <dt>Who is affected</dt><dd>Keyboard and screen reader users</dd>
+          </dl>
+          <p><strong>Problem:</strong> These are styled <code>&lt;div&gt;</code>s, so keyboard users can't add products or send an order. The three "Add" buttons also sound identical to a screen reader, which can't tell which product each one adds.</p>
+          <p class="code-label">Recommended fix</p>
+<pre><code>&lt;button class="btn"&gt;Add&lt;span class="visually-hidden"&gt; Coconut Loaf to order&lt;/span&gt;&lt;/button&gt;
+&lt;button class="btn" type="submit"&gt;Send order&lt;/button&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="finding" aria-labelledby="f3">
+        <div class="finding-head"><h3 id="f3">3. Order form fields have no labels</h3><span class="badge c-critical">Critical</span></div>
+        <div class="finding-body">
+          <dl>
+            <dt>WCAG</dt><dd>1.3.1 Info and Relationships (A), 3.3.2 Labels or Instructions (A), 4.1.2 Name, Role, Value (A)</dd>
+            <dt>Where</dt><dd>Name, Phone and "What would you like?" fields</dd>
+            <dt>Who is affected</dt><dd>Screen reader users, people with memory or attention difficulties</dd>
+          </dl>
+          <p><strong>Problem:</strong> The fields use placeholder text instead of labels. The hint disappears as soon as someone starts typing, is very faint, and isn't reliably announced by screen readers. Required fields aren't marked.</p>
+          <p class="code-label">Recommended fix</p>
+<pre><code>&lt;label for="name"&gt;Name *&lt;/label&gt;
+&lt;input id="name" name="name" autocomplete="name" required aria-describedby="name-error"&gt;
+&lt;p class="field-error" id="name-error"&gt;&lt;/p&gt;</code></pre>
+        </div>
+      </article>
+
+      <!-- SERIOUS -->
+      <article class="finding" aria-labelledby="f4">
+        <div class="finding-head"><h3 id="f4">4. Text colour contrast is too low across the page</h3><span class="badge c-serious">Serious</span></div>
+        <div class="finding-body">
+          <dl>
+            <dt>WCAG</dt><dd>1.4.3 Contrast (Minimum) (AA)</dd>
+            <dt>Where</dt><dd>Body text, section headings, logo, navigation, buttons, prices, footer, hero headline</dd>
+            <dt>Who is affected</dt><dd>People with low vision or colour blindness, older visitors, anyone on a phone in sunlight</dd>
+          </dl>
+          <p><strong>Problem:</strong> WAVE found 26 contrast errors. Normal text needs at least 4.5:1, and the page goes as low as 1.6:1. The white hero headline sits directly on a busy photo with no overlay. See <a href="#contrast">section 6</a> for every colour pair measured.</p>
+          <p><strong>Fix:</strong> Use dark text (for example <code>#1f1a10</code>) on the yellow brand colour instead of white, darken grey text to <code>#333</code>, darken the price colour to <code>#6b4e00</code>, and add a dark overlay behind the hero headline. The bakery keeps its yellow brand colour.</p>
+        </div>
+      </article>
+
+      <article class="finding" aria-labelledby="f5">
+        <div class="finding-head"><h3 id="f5">5. Images have no alt text</h3><span class="badge c-serious">Serious</span></div>
+        <div class="finding-body">
+          <dl>
+            <dt>WCAG</dt><dd>1.1.1 Non-text Content (A)</dd>
+            <dt>Where</dt><dd>Logo image and three product photos (4 images)</dd>
+            <dt>Who is affected</dt><dd>Screen reader users; also anyone whose images fail to load</dd>
+          </dl>
+          <p><strong>Problem:</strong> Without an <code>alt</code> attribute, screen readers may read out the image's file name or web address instead.</p>
+          <p class="code-label">Recommended fix</p>
+<pre><code>&lt;img src="coconut-loaf.jpg" alt="A sliced golden loaf of bread on a wooden board"&gt;
+&lt;!-- Decorative logo shape next to the business name: --&gt;
+&lt;svg aria-hidden="true" focusable="false"&gt;...&lt;/svg&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="finding" aria-labelledby="f6">
+        <div class="finding-head"><h3 id="f6">6. Keyboard focus outline has been removed</h3><span class="badge c-serious">Serious</span></div>
+        <div class="finding-body">
+          <dl>
+            <dt>WCAG</dt><dd>2.4.7 Focus Visible (AA)</dd>
+            <dt>Where</dt><dd>Whole site (CSS rule <code>*:focus { outline: none; }</code>)</dd>
+            <dt>Who is affected</dt><dd>Keyboard users, who can't see where they are on the page</dd>
+          </dl>
+          <p class="code-label">Recommended fix</p>
+<pre><code>/* Remove: *:focus { outline: none; } */
+:focus-visible { outline: 3px solid #0b57d0; outline-offset: 3px; }</code></pre>
+        </div>
+      </article>
+
+      <article class="finding" aria-labelledby="f7">
+        <div class="finding-head"><h3 id="f7">7. Reviews rotate automatically with no way to pause</h3><span class="badge c-serious">Serious</span></div>
+        <div class="finding-body">
+          <dl>
+            <dt>WCAG</dt><dd>2.2.2 Pause, Stop, Hide (A)</dd>
+            <dt>Where</dt><dd>"What people say" section</dd>
+            <dt>Who is affected</dt><dd>Slow readers, people with attention or cognitive difficulties, screen reader users</dd>
+          </dl>
+          <p><strong>Problem:</strong> A new review appears every 2.5 seconds, which is too fast for many people to read, and nothing stops it.</p>
+          <p><strong>Fix:</strong> Add Pause, Previous and Next buttons, slow the rotation to at least 6 seconds, and stop it automatically for visitors who have turned on "reduce motion" in their device settings.</p>
+        </div>
+      </article>
+
+      <article class="finding" aria-labelledby="f8">
+        <div class="finding-head"><h3 id="f8">8. Form errors use colour only and don't explain the problem</h3><span class="badge c-serious">Serious</span></div>
+        <div class="finding-body">
+          <dl>
+            <dt>WCAG</dt><dd>1.4.1 Use of Color (A), 3.3.1 Error Identification (A), 3.3.3 Error Suggestion (AA)</dd>
+            <dt>Where</dt><dd>Order form</dd>
+            <dt>Who is affected</dt><dd>Colour-blind users, screen reader users, everyone</dd>
+          </dl>
+          <p><strong>Problem:</strong> When a field is empty, the page only turns its border red and shows the single word "Error." It doesn't say which field is wrong or what to do, and screen readers don't announce it.</p>
+          <p><strong>Fix:</strong> Show a specific message under each field (for example, "Enter your phone number."), connect it with <code>aria-describedby</code>, mark the field <code>aria-invalid="true"</code>, and move focus to an error summary at the top of the form.</p>
+        </div>
+      </article>
+
+      <article class="finding" aria-labelledby="f9">
+        <div class="finding-head"><h3 id="f9">9. Zooming is disabled on phones</h3><span class="badge c-serious">Serious</span></div>
+        <div class="finding-body">
+          <dl>
+            <dt>WCAG</dt><dd>1.4.4 Resize Text (AA)</dd>
+            <dt>Where</dt><dd>Viewport meta tag in the page head</dd>
+            <dt>Who is affected</dt><dd>People with low vision on mobile devices</dd>
+          </dl>
+          <p class="code-label">Recommended fix</p>
+<pre><code>&lt;!-- Before --&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"&gt;
+&lt;!-- After --&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</code></pre>
+          <p>Also raise the base text size from 13px to at least 16px.</p>
+        </div>
+      </article>
+
+      <!-- MODERATE -->
+      <article class="finding" aria-labelledby="f10">
+        <div class="finding-head"><h3 id="f10">10. Page has no heading structure</h3><span class="badge c-moderate">Moderate</span></div>
+        <div class="finding-body">
+          <dl>
+            <dt>WCAG</dt><dd>1.3.1 Info and Relationships (A), 2.4.6 Headings and Labels (AA)</dd>
+            <dt>Where</dt><dd>Hero text and section titles ("Our Menu", "What people say", "Order ahead")</dd>
+            <dt>Who is affected</dt><dd>Screen reader users, who often jump between headings to find content</dd>
+          </dl>
+          <p><strong>Problem:</strong> The page has no <code>&lt;h1&gt;</code>. The section titles are styled <code>&lt;div&gt;</code>s, and the product names jump straight to <code>&lt;h4&gt;</code>.</p>
+          <p><strong>Fix:</strong> Make the hero text the <code>&lt;h1&gt;</code>, the section titles <code>&lt;h2&gt;</code>, and the product names <code>&lt;h3&gt;</code>.</p>
+        </div>
+      </article>
+
+      <article class="finding" aria-labelledby="f11">
+        <div class="finding-head"><h3 id="f11">11. No page landmarks or "skip to content" link</h3><span class="badge c-moderate">Moderate</span></div>
+        <div class="finding-body">
+          <dl>
+            <dt>WCAG</dt><dd>1.3.1 Info and Relationships (A), 2.4.1 Bypass Blocks (A)</dd>
+            <dt>Where</dt><dd>Whole page</dd>
+            <dt>Who is affected</dt><dd>Keyboard and screen reader users</dd>
+          </dl>
+          <p><strong>Fix:</strong> Wrap the page in <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code> and <code>&lt;footer&gt;</code>, and add a "Skip to main content" link as the first item on the page. It can stay hidden until it receives keyboard focus.</p>
+        </div>
+      </article>
+
+      <article class="finding" aria-labelledby="f12">
+        <div class="finding-head"><h3 id="f12">12. Fake links and "click here" link text</h3><span class="badge c-moderate">Moderate</span></div>
+        <div class="finding-body">
+          <dl>
+            <dt>WCAG</dt><dd>2.4.4 Link Purpose (A), 2.1.1 Keyboard (A)</dd>
+            <dt>Where</dt><dd>"click here" for catering orders; Facebook and Instagram in the footer</dd>
+            <dt>Who is affected</dt><dd>Keyboard users, and screen reader users who browse a list of links</dd>
+          </dl>
+          <p><strong>Problem:</strong> These look like links but are <code>&lt;span&gt;</code>s, so they can't be reached by keyboard. The footer ones don't go anywhere. "Click here" means nothing when read out of context.</p>
+          <p class="code-label">Recommended fix</p>
+<pre><code>&lt;a href="#order"&gt;Ask us about catering orders&lt;/a&gt;
+&lt;a href="https://facebook.com/seabreezebakery"&gt;Facebook&lt;/a&gt;</code></pre>
+        </div>
+      </article>
+
+      <article class="finding" aria-labelledby="f13">
+        <div class="finding-head"><h3 id="f13">13. Form field borders are nearly invisible</h3><span class="badge c-moderate">Moderate</span></div>
+        <div class="finding-body">
+          <dl>
+            <dt>WCAG</dt><dd>1.4.11 Non-text Contrast (AA)</dd>
+            <dt>Where</dt><dd>All order form fields</dd>
+            <dt>Who is affected</dt><dd>People with low vision, who may not see where to type</dd>
+          </dl>
+          <p><strong>Problem:</strong> The <code>#f0f0f0</code> border on white has a contrast of <span class="fail">1.14:1</span>, and form controls need at least 3:1.</p>
+          <p><strong>Fix:</strong> Use a 2px <code>#767676</code> border (<span class="pass">4.54:1</span>).</p>
+        </div>
+      </article>
+
+      <article class="finding" aria-labelledby="f14">
+        <div class="finding-head"><h3 id="f14">14. Form fields don't support autofill</h3><span class="badge c-moderate">Moderate</span></div>
+        <div class="finding-body">
+          <dl>
+            <dt>WCAG</dt><dd>1.3.5 Identify Input Purpose (AA)</dd>
+            <dt>Where</dt><dd>Name and Phone fields</dd>
+            <dt>Who is affected</dt><dd>People with motor or memory difficulties; also faster for everyone</dd>
+          </dl>
+          <p><strong>Fix:</strong> Add <code>autocomplete="name"</code> and <code>type="tel" autocomplete="tel"</code> so browsers can fill these in automatically.</p>
+        </div>
+      </article>
+
+      <article class="finding" aria-labelledby="f15">
+        <div class="finding-head"><h3 id="f15">15. Page language is not set</h3><span class="badge c-moderate">Moderate</span></div>
+        <div class="finding-body">
+          <dl>
+            <dt>WCAG</dt><dd>3.1.1 Language of Page (A)</dd>
+            <dt>Where</dt><dd><code>&lt;html&gt;</code> tag</dd>
+            <dt>Who is affected</dt><dd>Screen reader users, whose software may read the text with the wrong accent or pronunciation</dd>
+          </dl>
+          <p><strong>Fix:</strong> <code>&lt;html lang="en"&gt;</code></p>
+        </div>
+      </article>
+
+      <article class="finding" aria-labelledby="f16">
+        <div class="finding-head"><h3 id="f16">16. Page title isn't descriptive</h3><span class="badge c-moderate">Moderate</span></div>
+        <div class="finding-body">
+          <dl>
+            <dt>WCAG</dt><dd>2.4.2 Page Titled (A)</dd>
+            <dt>Where</dt><dd><code>&lt;title&gt;Home&lt;/title&gt;</code></dd>
+            <dt>Who is affected</dt><dd>Screen reader users, anyone with several tabs open, and search engines</dd>
+          </dl>
+          <p><strong>Fix:</strong> <code>&lt;title&gt;Seabreeze Bakery – Fresh bread baked every morning&lt;/title&gt;</code></p>
+        </div>
+      </article>
+
+      <!-- MINOR -->
+      <article class="finding" aria-labelledby="f17">
+        <div class="finding-head"><h3 id="f17">17. Pop-up alerts interrupt visitors</h3><span class="badge c-minor">Minor</span></div>
+        <div class="finding-body">
+          <dl>
+            <dt>WCAG</dt><dd>4.1.3 Status Messages (AA), best practice</dd>
+            <dt>Where</dt><dd>"Added!" and "Sent!" browser pop-ups</dd>
+            <dt>Who is affected</dt><dd>Everyone, especially screen reader users</dd>
+          </dl>
+          <p><strong>Fix:</strong> Replace <code>alert()</code> with a message on the page inside <code>&lt;p role="status"&gt;</code>, for example "Coconut Loaf added to your order." Screen readers announce it without interrupting the visitor.</p>
+        </div>
+      </article>
+
+      <article class="finding" aria-labelledby="f18">
+        <div class="finding-head"><h3 id="f18">18. Small click and tap targets</h3><span class="badge c-minor">Minor</span></div>
+        <div class="finding-body">
+          <dl>
+            <dt>WCAG</dt><dd>2.5.8 Target Size (Minimum) (AA), best practice</dd>
+            <dt>Where</dt><dd>Navigation items and footer links</dd>
+            <dt>Who is affected</dt><dd>People with motor difficulties and touchscreen users</dd>
+          </dl>
+          <p><strong>Fix:</strong> Add padding so every link and button is at least 24×24px. 44×44px is better for touchscreens.</p>
+        </div>
+      </article>
+    </section>
+
+    <section aria-labelledby="contrast">
+      <h2 id="contrast">6. Colour contrast details</h2>
+      <div class="table-wrap">
+        <table>
+          <caption>Measured contrast ratios. Normal text needs 4.5:1, large text 3:1 and form borders 3:1.</caption>
+          <thead><tr><th scope="col">Element</th><th scope="col">Colours</th><th scope="col" class="num">Current</th><th scope="col">Suggested colours</th><th scope="col" class="num">Fixed</th></tr></thead>
+          <tbody>
+            <tr><td>Logo, navigation, buttons</td><td>White on <code>#f4c542</code></td><td class="num fail">1.63:1</td><td><code>#1f1a10</code> on <code>#f4c542</code></td><td class="num pass">10.64:1</td></tr>
+            <tr><td>Prices, "click here" link</td><td><code>#e8c76a</code> on white</td><td class="num fail">1.64:1</td><td><code>#6b4e00</code> on white</td><td class="num pass">7.74:1</td></tr>
+            <tr><td>Footer text</td><td><code>#555</code> on <code>#333</code></td><td class="num fail">1.69:1</td><td><code>#e6e6e6</code> on <code>#222</code></td><td class="num pass">12.75:1</td></tr>
+            <tr><td>Section headings</td><td><code>#b5b5b5</code> on white</td><td class="num fail">2.05:1</td><td><code>#1f1a10</code> on white</td><td class="num pass">17+:1</td></tr>
+            <tr><td>Footer links</td><td><code>#666</code> on <code>#333</code></td><td class="num fail">2.20:1</td><td>White on <code>#222</code></td><td class="num pass">15.9:1</td></tr>
+            <tr><td>Body text</td><td><code>#999</code> on white</td><td class="num fail">2.85:1</td><td><code>#333</code> on white</td><td class="num pass">12.63:1</td></tr>
+            <tr><td>Form field borders</td><td><code>#f0f0f0</code> on white</td><td class="num fail">1.14:1</td><td><code>#767676</code> on white</td><td class="num pass">4.54:1</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section aria-labelledby="plan">
+      <h2 id="plan">7. Recommended fix plan</h2>
+      <ol class="plan">
+        <li><strong>Phase 1: Critical (about 2–3 hours).</strong> Issues 1–3. Rebuild the menu, buttons and form controls with proper HTML. After this phase, everyone can navigate and order.</li>
+        <li><strong>Phase 2: Serious (about 2–3 hours).</strong> Issues 4–9. New accessible colour values, alt text, focus styles, carousel controls, clear error messages, and re-enabling zoom.</li>
+        <li><strong>Phase 3: Moderate and minor (about 1.5–2 hours).</strong> Issues 10–18. Headings, landmarks, skip link, link text, borders, autofill, language, title, status messages and target sizes.</li>
+        <li><strong>Re-test (included).</strong> Run Lighthouse, WAVE, keyboard and contrast checks again and send a short before-and-after summary.</li>
+      </ol>
+      <p>These fixes were applied to the demo page, and the results were: Lighthouse <strong>50 → 100</strong>, WAVE errors <strong>8 → 0</strong>, contrast errors <strong>26 → 0</strong>. <a href="../accessibility-case-study/">See the full before-and-after case study</a>.</p>
+    </section>
+
+    <section aria-labelledby="limits">
+      <h2 id="limits">8. Limitations</h2>
+      <ul>
+        <li>This audit covers one page. Other pages, such as a checkout or contact page, may have different issues.</li>
+        <li>Automated tools catch only some accessibility problems, so this report combines them with manual testing. Testing with real users with disabilities is the best way to confirm a site works for everyone.</li>
+        <li>This report measures the page against the WCAG 2.2 Level AA guidelines. It is not legal advice and does not certify legal compliance.</li>
+      </ul>
+    </section>
+
+    <aside class="cta" aria-labelledby="cta-heading">
+      <h2 id="cta-heading">Want a report like this for your website?</h2>
+      <p>I audit websites built with HTML, WordPress, Shopify and Wix, and I can fix the issues I find. You get a clear, prioritised report like this one, written in plain English.</p>
+      <p><a href="https://www.upwork.com/freelancers/~01d9e8d935bae67b07"><strong>Hire me on Upwork →</strong></a></p>
+    </aside>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Sample audit report prepared by Allan K. · Seabreeze Bakery is a fictional business created for this portfolio.</p>
+  </div>
+</footer>
+</body>
+</html>
